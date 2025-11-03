@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InSports Technologies - Spotip Football App</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: #0a0e27;
+        color: #e0e0e0;
+        overflow-x: hidden;
+      }
+
+      /* Animated Stadium Background */
+      .hero {
+        position: relative;
+        height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #1a1f3a 0%,
+          #0f1219 50%,
+          #1a1f3a 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .stadium-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0.15;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800"><defs><radialGradient id="stadium-light" cx="50%" cy="30%" r="60%"><stop offset="0%" style="stop-color:%23ffffff;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%23000000;stop-opacity:0" /></radialGradient><pattern id="stadium-seats" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect x="2" y="2" width="6" height="6" fill="%23ff6b35" opacity="0.4"/><rect x="10" y="2" width="6" height="6" fill="%23ff6b35" opacity="0.4"/><rect x="2" y="10" width="6" height="6" fill="%23ff6b35" opacity="0.4"/><rect x="10" y="10" width="6" height="6" fill="%23ff6b35" opacity="0.4"/></pattern></defs><ellipse cx="700" cy="150" rx="800" ry="200" fill="url(%23stadium-light)"/><rect y="200" width="1400" height="600" fill="url(%23stadium-seats)"/><ellipse cx="700" cy="500" rx="600" ry="300" fill="%23155e0f" opacity="0.3"/><g stroke="%23ffffff" stroke-width="3" fill="none" opacity="0.2"><rect x="300" y="350" width="800" height="300"/><line x1="700" y1="350" x2="700" y2="650"/><circle cx="700" cy="500" r="80"/></g></svg>');
+        background-size: cover;
+        background-position: center;
+        animation: stadiumPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes stadiumPulse {
+        0%,
+        100% {
+          opacity: 0.1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      .hero-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 0%,
+          rgba(0, 0, 0, 0.6) 100%
+        );
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        animation: heroSlide 0.8s ease;
+      }
+
+      .brand {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #ff6b35;
+        margin-bottom: 10px;
+        font-weight: 600;
+        animation: fadeInDown 0.6s ease;
+      }
+
+      .hero-content h1 {
+        font-size: 5rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          135deg,
+          #ff6b35 0%,
+          #ffa500 50%,
+          #ff6b35 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 40px rgba(255, 107, 53, 0.3);
+        animation: fadeInDown 0.8s ease;
+        line-height: 1.1;
+      }
+
+      .hero-content .tagline {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        color: #b0b0b0;
+        animation: fadeInUp 0.8s ease 0.2s both;
+        font-weight: 300;
+        letter-spacing: 1px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        color: #888;
+        margin-bottom: 40px;
+        animation: fadeInUp 0.8s ease 0.3s both;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 0.8s ease 0.4s both;
+      }
+
+      .cta-button {
+        padding: 16px 50px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button.primary {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8a50 100%);
+        color: white;
+        box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+      }
+
+      .cta-button.primary:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(255, 107, 53, 0.6);
+      }
+
+      .cta-button.secondary {
+        background: transparent;
+        color: #ff6b35;
+        border: 2px solid #ff6b35;
+      }
+
+      .cta-button.secondary:hover {
+        background: rgba(255, 107, 53, 0.1);
+        transform: translateY(-4px);
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes heroSlide {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Features Section */
+      .features {
+        padding: 120px 20px;
+        background: linear-gradient(180deg, #0a0e27 0%, #151829 100%);
+        position: relative;
+      }
+
+      .features::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+      }
+
+      .features-container {
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: 3.5rem;
+        text-align: center;
+        margin-bottom: 80px;
+        background: linear-gradient(135deg, #ff6b35, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 900;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+      }
+
+      .feature-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 53, 0.05) 0%,
+          rgba(255, 165, 0, 0.02) 100%
+        );
+        border: 1px solid rgba(255, 107, 53, 0.2);
+        padding: 50px 30px;
+        border-radius: 20px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+      }
+
+      .feature-card:hover {
+        border-color: rgba(255, 107, 53, 0.5);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 53, 0.1) 0%,
+          rgba(255, 165, 0, 0.05) 100%
+        );
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(255, 107, 53, 0.2);
+      }
+
+      .feature-icon {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        display: inline-block;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #ff6b35;
+        font-weight: 700;
+      }
+
+      .feature-card p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      /* Fun Games Notice */
+      .fun-notice {
+        margin: 100px 20px;
+        padding: 60px 40px;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1) 0%,
+          rgba(118, 75, 162, 0.1) 100%
+        );
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        border-radius: 20px;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        backdrop-filter: blur(20px);
+        animation: slideUp 0.8s ease;
+      }
+
+      .fun-notice h2 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .fun-notice p {
+        font-size: 1.1rem;
+        color: #d0d0d0;
+        line-height: 1.8;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Footer */
+      footer {
+        background: #050815;
+        border-top: 1px solid rgba(255, 107, 53, 0.2);
+        color: #999;
+        padding: 60px 20px;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-brand {
+        font-size: 1.8rem;
+        color: #ff6b35;
+        margin-bottom: 30px;
+        font-weight: 800;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 50px;
+        margin-bottom: 40px;
+      }
+
+      .footer-section h3 {
+        color: #ff6b35;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      .contact-email {
+        margin-bottom: 15px;
+      }
+
+      .contact-email a {
+        color: #ff6b35;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .contact-email a:hover {
+        color: #ffa500;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-links a {
+        color: #999;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #ff6b35;
+        padding-left: 5px;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 107, 53, 0.1);
+        padding-top: 30px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      @media (max-width: 768px) {
+        .hero-content h1 {
+          font-size: 3rem;
+        }
+
+        .hero-content .tagline {
+          font-size: 1.2rem;
+        }
+
+        .section-title {
+          font-size: 2.2rem;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .cta-button {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section with Stadium -->
+    <section class="hero">
+      <div class="stadium-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="brand">InSports Technologies</div>
+        <h1>SPOTIP</h1>
+        <p class="tagline">The Ultimate Football Experience</p>
+        <p class="hero-subtitle">
+          Live Scores • Breaking News • Fun Predictions
+        </p>
+        <div class="cta-buttons">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.insports.insports"
+            class="cta-button primary"
+            >Download Spotip Now</a
+          >
+          <a href="#features" class="cta-button secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="features-container">
+        <h2 class="section-title">What's Inside Spotip</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Live Scores</h3>
+            <p>
+              Real-time match updates, statistics, and instant notifications for
+              all major football leagues worldwide.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📰</div>
+            <h3>Football News</h3>
+            <p>
+              Stay ahead with breaking news, transfer rumors, team updates, and
+              expert analysis from the football world.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎮</div>
+            <h3>Fun Predictions</h3>
+            <p>
+              Test your football knowledge with engaging prediction games.
+              Compete with friends and climb the leaderboards.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Important Notice -->
+    <section class="fun-notice">
+      <h2>🎯 Fun Predictions - Entertainment Only</h2>
+      <p>
+        Spotip's prediction games are designed purely for entertainment and fun.
+        <strong>No real money, cash rewards, or gambling is involved</strong>.
+        Play freely, make your predictions, and enjoy testing your football
+        expertise without any financial risk.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-container">
+        <div class="footer-brand">InSports Technologies</div>
+
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Get in Touch</h3>
+            <div class="contact-email">
+              <p style="margin-bottom: 8px; color: #aaa">Email:</p>
+              <a href="mailto:contact@insportstechnologies.com"
+                >admin@insportstechnologies.com</a
+              >
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Legal</h3>
+            <div class="footer-links">
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms-and-conditions.html">Terms & Conditions</a>
+              <a href="mailto:support@insportstechnologies.com">Support</a>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Spotip</h3>
+            <div class="footer-links">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.insports.insports"
+                >Google Play Store</a
+              >
+              <p style="color: #666; margin-top: 15px; font-size: 0.9rem">
+                Available on Android
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 InSports Technologies. All rights reserved. | Spotip -
+            Football at Your Fingertips
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
